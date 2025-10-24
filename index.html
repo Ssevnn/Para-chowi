@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dedicatoria</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1:#ff9a9e;
+      --bg-2:#fad0c4;
+      --card:#ffffffee;
+      --accent:#ff6b6b;
+      --muted:#6b6b6b;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Montserrat,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background: linear-gradient(135deg,var(--bg-1),var(--bg-2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    .stage{position:relative;width:100%;max-width:900px}
+
+    .card{
+      background:var(--card);
+      border-radius:18px;
+      padding:36px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.12);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .header{
+      display:flex;align-items:center;gap:16px;margin-bottom:8px
+    }
+    .avatar{
+      width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,#fff2,#fff0);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:var(--accent);box-shadow:0 6px 18px rgba(0,0,0,0.06)
+    }
+    h1{font-family:'Playfair Display',serif;margin:0;font-size:28px}
+    p.lead{margin:6px 0 22px;color:var(--muted)}
+
+    .message{
+      font-size:18px;line-height:1.5;margin-bottom:18px;padding:18px;border-radius:12px;background:linear-gradient(180deg, #ffffff, #fff9);
+    }
+
+    .meta{display:flex;gap:12px;align-items:center}
+    .from{font-weight:700;color:var(--accent)}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+    .btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:600}
+    .btn.primary{background:var(--accent);color:white}
+    .btn.ghost{background:transparent;border:1px solid rgba(0,0,0,0.06)}
+
+    .floating-hearts{position:absolute;inset:0;pointer-events:none}
+    .heart{
+      position:absolute;width:28px;height:28px;transform:translate(-50%,-50%) scale(0.9);
+      opacity:0;animation:floatUp 3.6s linear infinite;
+      filter:drop-shadow(0 6px 8px rgba(0,0,0,0.08));
+    }
+    .heart svg{width:100%;height:100%}
+
+    @keyframes floatUp{
+      0%{transform:translate(-50%,20px) scale(0.6);opacity:0}
+      10%{opacity:1}
+      50%{transform:translate(-50%,-60px) scale(1)}
+      100%{transform:translate(-50%,-200px) scale(0.8);opacity:0}
+    }
+
+    /* small screen tweaks */
+    @media (max-width:520px){
+      .card{padding:20px}
+      h1{font-size:22px}
+      .avatar{width:56px;height:56px}
+      .message{font-size:16px}
+    }
+
+    /* little confetti pulse when clicking send */
+    .pulse{
+      position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen
+    }
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="card" id="card">
+      <div class="header">
+        <div class="avatar" id="avatar">💌</div>
+        <div>
+          <h1 id="title">Para: <span id="recipient">Chowii</span></h1>
+          <p class="lead" id="subtitle">Un pequeño detalle hecho con cariño.</p>
+        </div>
+      </div>
+
+      <div class="message" id="message">Al haberte conocido mi vida se volvió un poquito más alegre. Me encanta tu forma de ser, tu sonrisa, lo linda que eres y la manera en que haces que todo parezca más sencillo. Se que no te lo he dicho, pero me gusta mucho tenerte cerca, y estoy realmente feliz de haberte conocido.</div>
+
+      <div class="meta">
+        <div class="from">De: <span id="sender">David</span></div>
+        <div style="color:var(--muted);font-size:13px">• <span id="date"></span></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn primary" id="editBtn">Editar</button>
+        <button class="btn ghost" id="copyBtn">Copiar texto</button>
+        <button class="btn ghost" id="themeBtn">Cambiar tema</button>
+      </div>
+
+      <div class="pulse hidden" id="pulseArea"></div>
+    </div>
+
+    <div class="floating-hearts" id="hearts"></div>
+  </div>
+
+  <script>
+    // --- Configurables (edita aquí si quieres cambiar el texto por defecto) ---
+    const DEFAULT = {
+      recipient: "Amor",
+      sender: "David",
+      message: "Gracias por cada risa, por tu paciencia y por hacer que lo simple se sienta extraordinario. Te dedico esto con todo mi cariño.",
+      subtitle: "Un detalle hecho con cariño",
+    };
+
+    // --- Init ---
+    const recipientEl = document.getElementById('recipient');
+    const senderEl = document.getElementById('sender');
+    const messageEl = document.getElementById('message');
+    const subtitleEl = document.getElementById('subtitle');
+    const dateEl = document.getElementById('date');
+
+    function setDefaults(){
+      recipientEl.textContent = DEFAULT.recipient;
+      senderEl.textContent = DEFAULT.sender;
+      messageEl.textContent = DEFAULT.message;
+      subtitleEl.textContent = DEFAULT.subtitle;
+      dateEl.textContent = new Date().toLocaleDateString();
+    }
+    setDefaults();
+
+    // --- Floating hearts generator ---
+    const heartsContainer = document.getElementById('hearts');
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      const left = Math.random()*100;
+      const delay = Math.random()*2;
+      h.style.left = left+'%';
+      h.style.bottom = '-10%';
+      h.style.animationDelay = delay+'s';
+      h.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21s-7.5-4.92-9.25-8.04C.84 9.9 4.1 5 8.5 6.5 10.07 7.1 11 8.5 12 9.5c1-1 1.93-2.4 3.5-3 4.4-1.5 7.66 3.4 5.75 6.96C19.5 16.08 12 21 12 21z" fill="white" opacity="0.95"/>
+        </svg>`;
+      heartsContainer.appe
