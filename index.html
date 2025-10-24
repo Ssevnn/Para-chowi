@@ -6,209 +6,51 @@
   <title>Dedicatoria — Carta 3D</title>
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg1: hsl(330, 100%, 99%);
-      --bg2: #f8c9d7;
-      --accent: #ff6b8a;
-      --muted: #6b6b6b;
-      --shadow: 0 10px 30px rgba(17,17,17,0.08);
+    :root{
+      --bg1:hsl(330, 100%, 99%);
+      --bg2:#f8c9d7;
+      --accent:#ff6b8a;
+      --muted:#6b6b6b;
+      --shadow:0 10px 30px rgba(17,17,17,0.08);
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Quicksand', system-ui, Segoe UI, Roboto, Helvetica Neue, Arial;
-      overflow: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow:hidden}
+    body{
+      font-family:'Quicksand',system-ui,Segoe UI,Roboto,Helvetica Neue,Arial;
+      background:linear-gradient(180deg,var(--bg1),var(--bg2));
+      display:flex;align-items:center;justify-content:center;
+      padding:32px;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-
-    .scene {
-      width: 100%;
-      max-width: 920px;
-      perspective: 1200px;
-      padding: 10px;
-    }
-
-    .card-wrap {
-      width: min(720px, 92vw);
-      height: auto;
-      aspect-ratio: 16 / 10;
-      margin: 0 auto;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform .3s ease;
-      cursor: grab;
-    }
-
-    .envelope {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1s cubic-bezier(.2,.9,.25,1);
-      transform-origin: top center;
-      box-shadow: var(--shadow);
-      border-radius: 16px;
-      overflow: visible;
-      background: #fff;
-    }
-
-    .body {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, #fff, #fff9);
-      border-radius: 14px;
-      padding: 30px 30px 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      transform: translateZ(-0.5px);
-      text-align: center;
-    }
-
-    .to {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(24px, 5vw, 34px);
-      color: var(--accent);
-      margin-bottom: 4px;
-    }
-
-    .subtitle {
-      color: var(--muted);
-      font-size: clamp(12px, 2.5vw, 14px);
-      margin-bottom: 12px;
-      font-weight: 500;
-    }
-
-    .flap {
-      position: absolute;
-      left: 0; right: 0; top: 0;
-      height: 58%;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-      background: linear-gradient(180deg, #ffeff3, #fff);
-      transform-origin: top center;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: transform 0.9s cubic-bezier(.2,.9,.25,1);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
-    }
-
-    .seal {
-      width: clamp(70px, 12vw, 96px);
-      height: clamp(70px, 12vw, 96px);
-      border-radius: 50%;
-      background: linear-gradient(180deg, var(--accent), #ff3f6b);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: clamp(22px, 5vw, 30px);
-      box-shadow: 0 8px 18px rgba(255,107,139,0.24);
-      transform: translateZ(35px);
-      transition: transform 0.18s ease;
-    }
-
-    .seal:active { transform: translateZ(30px) scale(0.97); }
-
-    .inner {
-      position: absolute;
-      left: 10%;
-      right: 10%;
-      top: 20%;
-      bottom: 12%;
-      background: linear-gradient(180deg, #fff, #fffefc);
-      border-radius: 12px;
-      padding: clamp(18px, 4vw, 34px);
-      font-family: 'Quicksand', sans-serif;
-      font-size: clamp(15px, 2vw, 18px);
-      color: #222;
-      transform-origin: top center;
-      transform: translateZ(-40px) rotateX(0deg);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
-      transition: transform 1s cubic-bezier(.2,.9,.25,1), opacity 0.6s;
-      overflow-y: auto;
-    }
-
-    .closed .flap { transform: rotateX(0deg); }
-    .closed .inner { opacity: 0; transform: translateY(8px) translateZ(-40px) rotateX(14deg); }
-    .open .flap { transform: rotateX(-160deg); }
-    .open .inner { opacity: 1; transform: translateY(0) translateZ(0) rotateX(0deg); }
-
-    .letter-title {
-      font-family: 'Great Vibes', cursive;
-      font-size: clamp(26px, 5vw, 32px);
-      color: var(--accent);
-      text-align: center;
-      margin-bottom: 12px;
-    }
-
-    .letter-body {
-      font-size: clamp(14px, 2.4vw, 18px);
-      line-height: 1.7;
-      color: #333;
-      text-align: justify;
-    }
-
-    .toggle-btn {
-      position: relative;
-      display: block;
-      margin-top: 10px;
-      background: var(--accent);
-      color: white;
-      border: 0;
-      border-radius: 8px;
-      padding: 8px 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-      transition: all .3s ease;
-    }
-
-    .toggle-btn:hover {
-      background: #ff85a2;
-      transform: scale(1.05);
-    }
-
-    .hearts-rain {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .heart {
-      position: absolute;
-      left: 50%;
-      width: 28px;
-      height: 28px;
-      transform: translateX(-50%);
-      opacity: 0;
-      filter: blur(6px);
-      animation: fall 3s linear forwards;
-    }
-
-    @keyframes fall {
-      0% { transform: translateY(-20vh) translateX(0) scale(0.7); opacity: 0; }
-      10% { opacity: 0.9; }
-      100% { transform: translateY(120vh) translateX(40px) scale(1.05); opacity: 0; }
-    }
-
-    @media (max-width: 600px) {
-      body { padding: 10px; overflow: auto; }
-      .scene { padding: 0; }
-      .card-wrap { aspect-ratio: 16 / 11; }
-      .inner { left: 6%; right: 6%; top: 22%; bottom: 10%; }
+    .scene{width:100%;max-width:920px;perspective:1200px}
+    .card-wrap{width:720px;height:460px;margin:0 auto;position:relative;transform-style:preserve-3d;transition:transform .3s ease;cursor:grab;}
+    .envelope{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.9,.25,1);transform-origin:top center;box-shadow:var(--shadow);border-radius:16px;overflow:visible}
+    .body{position:absolute;inset:0;background:linear-gradient(180deg,#fff,#fff9);border-radius:14px;padding:40px 40px 60px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;transform:translateZ(-0.5px)}
+    .to{font-family:'Great Vibes',cursive;font-size:34px;color:var(--accent);margin:0 0 8px}
+    .subtitle{color:var(--muted);font-size:14px;margin:0 0 14px;font-weight:500}
+    .flap{position:absolute;left:0;right:0;top:0;height:58%;border-top-left-radius:16px;border-top-right-radius:16px;background:linear-gradient(180deg,#ffeff3,#fff);transform-origin:top center;z-index:3;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform 0.9s cubic-bezier(.2,.9,.25,1);box-shadow:0 8px 20px rgba(0,0,0,0.06)}
+    .seal{width:96px;height:96px;border-radius:50%;background:linear-gradient(180deg,var(--accent),#ff3f6b);display:flex;align-items:center;justify-content:center;color:white;font-size:30px;box-shadow:0 8px 18px rgba(255,107,139,0.24);transform:translateZ(35px);transition:transform 0.18s ease}
+    .seal:active{transform:translateZ(30px) scale(0.97)}
+    .inner{position:absolute;left:12%;right:12%;top:18%;bottom:12%;background:linear-gradient(180deg,#fff,#fffefc);border-radius:12px;padding:34px;font-family:'Quicksand',sans-serif;font-size:18px;color:#222;transform-origin:top center;transform:translateZ(-40px) rotateX(0deg);box-shadow:0 8px 24px rgba(0,0,0,0.06);transition:transform 1s cubic-bezier(.2,.9,.25,1),opacity 0.6s;overflow-y:auto}
+    .closed .flap{transform:rotateX(0deg)}
+    .closed .inner{opacity:0;transform:translateY(8px) translateZ(-40px) rotateX(14deg)}
+    .open .flap{transform:rotateX(-160deg)}
+    .open .inner{opacity:1;transform:translateY(0) translateZ(0) rotateX(0deg)}
+    .hearts-rain{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+    .heart{position:absolute;left:50%;width:28px;height:28px;transform:translateX(-50%);opacity:0;filter:blur(6px);animation:fall 3s linear forwards}
+    .heart svg{width:100%;height:100%}
+    @keyframes fall{0%{transform:translateY(-20vh) translateX(0) scale(0.7);opacity:0}10%{opacity:0.9}100%{transform:translateY(120vh) translateX(40px) scale(1.05);opacity:0}}
+    .bg-dots{position:absolute;inset:-20%;background-image:radial-gradient(rgba(255,107,139,0.06) 1px,transparent 1px);background-size:24px 24px;opacity:0.9;pointer-events:none}
+    .letter-title{font-family:'Great Vibes',cursive;font-size:32px;color:var(--accent);margin:0 0 14px;text-align:center}
+    .letter-body{font-size:18px;line-height:1.7;color:#333;margin-top:6px;text-align:justify}
+    .toggle-btn{position:absolute;bottom:12px;right:12px;background:var(--accent);color:white;border:0;border-radius:8px;padding:8px 14px;font-weight:600;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,0.12);display:none}
+    .open .toggle-btn{display:block}
+    @media (max-width:780px){
+      .card-wrap{width:90vw;height:56vw}
+      .inner{left:6%;right:6%;top:20%;bottom:12%;padding:22px}
+      .seal{width:76px;height:76px;font-size:26px}
+      .to{font-size:26px}
     }
   </style>
 </head>
@@ -216,112 +58,110 @@
   <div class="scene">
     <div class="card-wrap" id="wrap">
       <div class="envelope closed" id="envelope">
-        <div class="flap" id="flap" role="button" aria-label="Abrir carta">
-          <div class="seal" id="seal">❤</div>
-        </div>
-
+        <div class="flap" id="flap" role="button" aria-label="Abrir carta"><div class="seal" id="seal">❤</div></div>
         <div class="body">
-          <h3 class="to">Para: <strong>Chowii</strong></h3>
-          <p class="subtitle">Un pequeño detalle hecho con todo mi cariño.</p>
-          <button class="toggle-btn" id="toggleBtn">Abrir carta</button>
+          <div>
+            <h3 class="to">Para: <strong>Chowii</strong></h3>
+            <p class="subtitle">Un pequeño detalle hecho con todo mi cariño.</p>
+          </div>
         </div>
-
         <div class="inner" id="inner">
           <h2 class="letter-title">Para ti, Chowii</h2>
           <div class="letter-body">
             <p>
               Desde que te conocí, mi vida se volvió un poco más alegre.  
               Hay algo en ti, tu sonrisa, tu forma de ser, esa manera en que haces que todo se sienta más sencillo  
-              que me encanta sin que pueda explicarlo del todo.
+              que me encanta sin que pueda explicarlo del todo.  
             </p>
             <p>
               Me gusta conversar contigo, compartir historias, las fotos que me envías y lo linda que eres.  
-              No sé si lo notas, pero logras que mis días sean más bonitos solo con existir.
+              No sé si lo notas, pero logras que mis días sean más bonitos solo con existir.  
             </p>
-            <p style="margin-top:18px;text-align:right;font-weight:700;color:var(--accent)">
-              Con cariño,<br>David <3
-            </p>
-          </div>
-        </div>
-
-        <div class="hearts-rain" id="hearts"></div>
+            <p style="margin-top:18px;text-align:right;font-weight:700;color:var(--accent)">Con cariño, <br>David <3 </p>
+        
       </div>
+      <div class="hearts-rain" id="hearts"></div>
+      <div class="bg-dots"></div>
+      </div>
+          <button class="toggle-btn" id="toggleBtn">Cerrar carta</button>
     </div>
   </div>
-
   <script>
-    const envelope = document.getElementById('envelope');
-    const flap = document.getElementById('flap');
-    const seal = document.getElementById('seal');
-    const hearts = document.getElementById('hearts');
-    const toggleBtn = document.getElementById('toggleBtn');
-    const wrap = document.getElementById('wrap');
-    let opened = false;
+    const envelope=document.getElementById('envelope');
+    const flap=document.getElementById('flap');
+    const seal=document.getElementById('seal');
+    const hearts=document.getElementById('hearts');
+    const toggleBtn=document.getElementById('toggleBtn');
+    const wrap=document.getElementById('wrap');
+    let opened=false;
 
-    function spawnHeart() {
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.style.left = Math.random() * 100 + '%';
-      h.style.top = '-10%';
-      h.style.animationDuration = (3 + Math.random() * 1.8) + 's';
-      h.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 21s-7.5-4.92-9.25-8.04C.84 9.9 4.1 5 8.5 6.5 10.07 7.1 11 8.5 12 9.5c1-1 1.93-2.4 3.5-3 4.4-1.5 7.66 3.4 5.75 6.96C19.5 16.08 12 21 12 21z" fill="rgba(255,90,130,0.95)"/></svg>';
+    // Corazones cayendo
+    function spawnHeart(){
+      const h=document.createElement('div');
+      h.className='heart';
+      h.style.left=Math.random()*100+'%';
+      h.style.top='-10%';
+      h.style.animationDuration=(3+Math.random()*1.8)+'s';
+      h.innerHTML='<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 21s-7.5-4.92-9.25-8.04C.84 9.9 4.1 5 8.5 6.5 10.07 7.1 11 8.5 12 9.5c1-1 1.93-2.4 3.5-3 4.4-1.5 7.66 3.4 5.75 6.96C19.5 16.08 12 21 12 21z" fill="rgba(255,90,130,0.95)"/></svg>';
       hearts.appendChild(h);
-      setTimeout(() => h.remove(), 5200 + Math.random() * 800);
+      setTimeout(()=>h.remove(),5200+Math.random()*800);
+    }
+    function startRain(){
+      let i=0;const total=30;
+      const iv=setInterval(()=>{spawnHeart();i++;if(i>=total)clearInterval(iv)},120);
     }
 
-    function startRain() {
-      let i = 0; const total = 30;
-      const iv = setInterval(() => { spawnHeart(); i++; if (i >= total) clearInterval(iv); }, 120);
-    }
-
-    flap.addEventListener('click', () => {
-      if (opened) return;
-      opened = true;
+    flap.addEventListener('click',()=>{
+      if(opened)return;
+      opened=true;
       envelope.classList.remove('closed');
       envelope.classList.add('open');
-      toggleBtn.textContent = 'Cerrar carta';
-      seal.animate([{transform:'translateZ(35px) scale(1)'},{transform:'translateZ(60px) scale(1.12)'},{transform:'translateZ(35px) scale(1)'}], {duration:500, easing:'cubic-bezier(.2,.9,.25,1)'});
+      seal.animate([{transform:'translateZ(35px) scale(1)'},{transform:'translateZ(60px) scale(1.12)'},{transform:'translateZ(35px) scale(1)'}],{duration:500,easing:'cubic-bezier(.2,.9,.25,1)'});
       startRain();
-      setTimeout(() => startRain(), 800);
-      setTimeout(() => startRain(), 1600);
+      setTimeout(()=>startRain(),800);
+      setTimeout(()=>startRain(),1600);
     });
 
-    toggleBtn.addEventListener('click', () => {
-      if (opened) {
-        opened = false;
+    toggleBtn.addEventListener('click',()=>{
+      if(opened){
+        opened=false;
         envelope.classList.remove('open');
         envelope.classList.add('closed');
-        toggleBtn.textContent = 'Abrir carta';
-      } else {
-        opened = true;
+        toggleBtn.textContent='Abrir carta';
+      }else{
+        opened=true;
         envelope.classList.remove('closed');
         envelope.classList.add('open');
-        toggleBtn.textContent = 'Cerrar carta';
+        toggleBtn.textContent='Cerrar carta';
         startRain();
       }
     });
 
-    // Rotación libre
-    let rotationX = 0, rotationY = 0, isDragging = false, lastX = 0, lastY = 0;
-    const updateRotation = () => envelope.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
-    const startDrag = (x, y) => { isDragging = true; lastX = x; lastY = y; wrap.style.cursor = 'grabbing'; };
-    const moveDrag = (x, y) => {
-      if (!isDragging) return;
-      const dx = x - lastX, dy = y - lastY;
-      rotationY += dx * 0.3;
-      rotationX -= dy * 0.3;
-      rotationX = Math.max(-60, Math.min(60, rotationX));
-      updateRotation();
-      lastX = x; lastY = y;
-    };
-    const endDrag = () => { isDragging = false; wrap.style.cursor = 'grab'; };
+    flap.tabIndex=0;
+    flap.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')flap.click()});
 
-    wrap.addEventListener('mousedown', e => startDrag(e.clientX, e.clientY));
-    window.addEventListener('mousemove', e => moveDrag(e.clientX, e.clientY));
-    window.addEventListener('mouseup', endDrag);
-    wrap.addEventListener('touchstart', e => startDrag(e.touches[0].clientX, e.touches[0].clientY));
-    window.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX, e.touches[0].clientY));
-    window.addEventListener('touchend', endDrag);
+    // Rotación libre (mouse y tacto)
+    let rotationX=0,rotationY=0,isDragging=false,lastX=0,lastY=0;
+    function updateRotation(){
+      envelope.style.transform=`rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+    }
+    function startDrag(x,y){isDragging=true;lastX=x;lastY=y;wrap.style.cursor='grabbing';}
+    function moveDrag(x,y){
+      if(!isDragging)return;
+      const dx=x-lastX,dy=y-lastY;
+      rotationY+=dx*0.3;
+      rotationX-=dy*0.3;
+      rotationX=Math.max(-60,Math.min(60,rotationX));
+      updateRotation();
+      lastX=x;lastY=y;
+    }
+    function endDrag(){isDragging=false;wrap.style.cursor='grab';}
+    wrap.addEventListener('mousedown',e=>startDrag(e.clientX,e.clientY));
+    window.addEventListener('mousemove',e=>moveDrag(e.clientX,e.clientY));
+    window.addEventListener('mouseup',endDrag);
+    wrap.addEventListener('touchstart',e=>startDrag(e.touches[0].clientX,e.touches[0].clientY));
+    window.addEventListener('touchmove',e=>moveDrag(e.touches[0].clientX,e.touches[0].clientY));
+    window.addEventListener('touchend',endDrag);
   </script>
 </body>
 </html>
